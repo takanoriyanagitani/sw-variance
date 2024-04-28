@@ -1,8 +1,7 @@
 import CalcVariance
 
-public let slow32f64: CalcVariance.CalculateVariance32f = {
-  let values: [Float32] = $0
-
+public func slowVar32f<C>(values: C) -> Float32
+where C: Collection<Float32> {
   let cnt: Int = values.count
   let tooFew: Bool = cnt < 2
   let ok: Bool = !tooFew
@@ -34,4 +33,33 @@ public let slow32f64: CalcVariance.CalculateVariance32f = {
   let sub: Float64 = left - right * right
 
   return Float32(ratio * sub)
+}
+
+public let slow32f64: CalcVariance.CalculateVariance32f = {
+  let values: [Float32] = $0
+  return slowVar32f(values: values)
+}
+
+public let bufPtrSlow32f: CalcVariance.CalcVarBufPtr32f = {
+  let values: UnsafeBufferPointer<Float32> = $0
+  return slowVar32f(values: values)
+}
+
+public let ptrSlow32f: CalcVariance.CalcVarPtr32f = {
+  let values: UnsafePointer<Float32> = $0
+  let count: Int = $1
+  let buf: UnsafeBufferPointer<Float32> = UnsafeBufferPointer(
+    start: values,
+    count: count
+  )
+  return bufPtrSlow32f(buf)
+}
+
+public let rawSlow32f: CalcVariance.CalcVarRaw32f = {
+  let values: UnsafeRawPointer = $0
+  let count: Int = $1
+  let bound: UnsafePointer<Float32> = values.assumingMemoryBound(
+    to: Float32.self
+  )
+  return ptrSlow32f(bound, count)
 }
