@@ -6,7 +6,7 @@ let package = Package(
   name: "CalcVariance",
   products: [
     .library(name: "CalcVariance", targets: ["CalcVariance"]),
-    .library(name: "Simple", targets: ["Simple"]),
+    .library(name: "Simple", targets: ["CalcVariance", "Simple"]),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0")
