@@ -1,5 +1,6 @@
 import CalcVariance
 
+/// Computes variance of 32-bit float values(uses 64-bit float internally)
 public func slowVar32f<C>(values: C) -> Float32
 where C: Collection<Float32> {
   let cnt: Int = values.count
