@@ -9,9 +9,9 @@ covDarwin() {
 	name=$1
 	readonly name
 
-  local prefix
+	local prefix
 	prefix="./.build/debug/${name}.xctest"
-  readonly prefix
+	readonly prefix
 
 	swift \
 		test \
