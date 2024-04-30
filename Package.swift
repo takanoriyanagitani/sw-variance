@@ -13,7 +13,7 @@ let package = Package(
   ],
   targets: [
     .target(name: "CalcVariance"),
-    .target(name: "Simple"),
+    .target(name: "Simple", dependencies: ["CalcVariance"]),
     .testTarget(name: "CalcVarianceTests", dependencies: ["CalcVariance"]),
     .testTarget(name: "SimpleTests", dependencies: ["Simple"]),
   ]
