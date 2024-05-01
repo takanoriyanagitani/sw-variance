@@ -1,5 +1,6 @@
 import CalcVariance
 
+/// Calculates the variance of 32-bit float values.
 public func calcVar32f<C>(values: C) -> Float32
 where C: Collection<Float32> {
   let cnt: Int = values.count
