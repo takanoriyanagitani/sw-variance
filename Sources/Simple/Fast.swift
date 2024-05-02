@@ -36,6 +36,7 @@ where C: Collection<Float32> {
   return ratio * sub
 }
 
+/// Calculates the variance of `[Float32]`.
 public let fast32f: CalcVariance.CalculateVariance32f = {
   let values: [Float32] = $0
   return calcVar32f(values: values)
