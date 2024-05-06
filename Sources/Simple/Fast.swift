@@ -59,6 +59,7 @@ public let ptrFast32f: CalcVariance.CalcVarPtr32f = {
   return bufPtrFast32f(buf)
 }
 
+/// Calculates the variance of `UnsafeRawPointer`.
 public let rawFast32f: CalcVariance.CalcVarRaw32f = {
   let values: UnsafeRawPointer = $0
   let count: Int = $1
