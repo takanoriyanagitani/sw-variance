@@ -1,5 +1,9 @@
 #!/bin/sh
 
+covdir=./cov.d
+
+mkdir -p "${covdir}"
+
 targets() {
 	echo CalcVariancePackageTests
 }
@@ -41,6 +45,11 @@ covLinux() {
 	name=$1
 	readonly name
 
+	local covl
+	covl="${covdir}/${name}"
+	readonly covl
+	mkdir -p "${covl}"
+
 	local prefix
 	prefix="./.build/debug/${name}.xctest"
 	readonly prefix
@@ -59,6 +68,14 @@ covLinux() {
 		"${prefix}" \
 		-instr-profile ./.build/debug/codecov/default.profdata |
 		cat >./cov.lcov
+
+	llvm-cov \
+		show \
+		--ignore-filename-regex='\.build' \
+		-format=html \
+		"${prefix}" \
+		-output-dir="${covl}" \
+		-instr-profile ./.build/debug/codecov/default.profdata
 
 	llvm-cov \
 		report \
