@@ -26,6 +26,53 @@ final class FastTests: XCTestCase {
     XCTAssertEqual(v, 162.0)
   }
 
+  func testRawEmpty() throws {
+    let raw: UnsafeMutableRawPointer = UnsafeMutableRawPointer.allocate(
+      byteCount: 0,
+      alignment: 4
+    )
+    defer {
+      raw.deallocate()
+    }
+    let v: Float32 = Simple.rawFast32f(raw, 0)
+    XCTAssertTrue(v.isNaN)
+  }
+
+  func testRawSingle() throws {
+    let raw: UnsafeMutableRawPointer = UnsafeMutableRawPointer.allocate(
+      byteCount: 4,
+      alignment: 4
+    )
+    defer {
+      raw.deallocate()
+    }
+    let v: Float32 = Simple.rawFast32f(raw, 1)
+    XCTAssertTrue(v.isNaN)
+  }
+
+  func testRawIV() throws {
+    let raw: UnsafeMutableRawPointer = UnsafeMutableRawPointer.allocate(
+      byteCount: 4 << 2,
+      alignment: 4
+    )
+    defer {
+      raw.deallocate()
+    }
+    let bound: UnsafeMutablePointer<Float32> = raw.assumingMemoryBound(to: Float32.self)
+    let buf: UnsafeMutableBufferPointer<Float32> = UnsafeMutableBufferPointer(
+      start: bound,
+      count: 4
+    )
+    buf[0] = 1.0
+    buf[1] = 2.0
+    buf[2] = 2.0
+    buf[3] = 2.0
+
+    let iraw: UnsafeRawPointer = UnsafeRawPointer(raw)
+    let v: Float32 = Simple.rawFast32f(iraw, 4)
+    XCTAssertEqual(v, 0.25)
+  }
+
 }
 
 final class SlowTests: XCTestCase {
